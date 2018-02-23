@@ -1,0 +1,75 @@
+﻿@*@model IEnumerable<EquineTracker.Models.Event>*@
+@model EquineTracker.Models.EventListViewModel
+
+@{
+    ViewData["Title"] = "Events";
+}
+
+<h2>Events</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<form asp-action="Index" method="get">
+    <div>
+        <p>
+            Search by Event Name: <input type="text" name="searchString" value="@ViewData["searchParam"]" />
+            <input type="submit" value="Search" class="btn btn-default" />
+        </p>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+                @*@Html.DisplayNameFor(model => model.Name)*@
+            </th>
+            <th>
+                Description
+                @*@Html.DisplayNameFor(model => model.Description)*@
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-SortOrder="@ViewData["DateSortParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]"> Event Date</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-SortOrder="@ViewData["LocationSortParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]"> Location</a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Events) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EventDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.EventId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.EventId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.EventId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@{ 
+    var prevPageDisabled = !Model.PagingInfo.HasPreviousPage ? "disabled" : "";
+    var nextPageDisabled = !Model.PagingInfo.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-page="@(Model.PagingInfo.CurrentPage - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]" class="btn btn-default @prevPageDisabled">Previous</a>
+<a asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-page="@(Model.PagingInfo.CurrentPage + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]" class="btn btn-default @nextPageDisabled">Next</a>

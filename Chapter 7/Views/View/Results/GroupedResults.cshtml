@@ -1,0 +1,41 @@
+﻿@model List<EquineTracker.Helpers.ResultGroup>
+
+@{
+    ViewData["Title"] = "Events With Results";
+}
+
+<h2>Event Result Details</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Event Date
+            </th>
+            <th>
+                Show Results
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var eventReults in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(mi => eventReults._Event.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(mi => eventReults._Event.EventDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(mi => eventReults.ResultCount)
+                </td>
+                <td>
+                    @Html.ActionLink("View Results", "Index", "Results", new { @EventId = eventReults._Event.EventId }, null)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

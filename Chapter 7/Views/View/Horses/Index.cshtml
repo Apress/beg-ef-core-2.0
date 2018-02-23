@@ -1,0 +1,64 @@
+﻿@*@model IEnumerable<EquineTracker.Models.Horse>*@
+@model EquineTracker.Helpers.PagedList<EquineTracker.Models.Horse>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Breed
+                </th>
+                <th>
+                    Height
+                </th>
+                <th>
+                    Value
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Breed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Height)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Value)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.HorseId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.HorseId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.HorseId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@{
+    var prevPageDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextPageDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index" asp-route-page="@(Model.CurrentPage - 1)"
+   class="btn btn-default @prevPageDisabled">Previous</a>
+<a asp-action="Index" asp-route-page="@(Model.CurrentPage + 1)"
+   class="btn btn-default @nextPageDisabled">Next</a>
